@@ -1,6 +1,7 @@
 'use strict';
 
-var ec = require('./ec');
+var ec = require('./ec'),
+	rsa = require('./rsa');
 
 function jwkToBuffer (jwk) {
 	if ('object' !== typeof jwk || null === jwk) {
@@ -15,6 +16,9 @@ function jwkToBuffer (jwk) {
 	switch (kty) {
 		case 'EC': {
 			return ec(jwk);
+		}
+		case 'RSA': {
+			return rsa(jwk);
 		}
 		default: {
 			throw new Error('Unsupported key type "' + kty + '"');
