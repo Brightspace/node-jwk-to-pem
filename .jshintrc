@@ -1,0 +1,11 @@
+{
+	"node": true,
+	"esnext": true,
+	"noyield": true,
+	"strict": true,
+	"trailing": true,
+	"undef": true,
+	"unused": true,
+	"laxbreak": true,
+	"-W030": true
+}
