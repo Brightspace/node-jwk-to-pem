@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/Brightspace/jwk-to-pem.git"
+    "url": "git+ssh://git@github.com/Brightspace/node-jwk-to-pem.git"
   },
   "keywords": [
     "jwt",
@@ -20,9 +20,9 @@
   "author": "D2L Corporation",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/Brightspace/jwk-to-pem/issues"
+    "url": "https://github.com/Brightspace/node-jwk-to-pem/issues"
   },
-  "homepage": "https://github.com/Brightspace/jwk-to-pem#readme",
+  "homepage": "https://github.com/Brightspace/node-jwk-to-pem#readme",
   "dependencies": {
     "asn1.js": "^2.0.3",
     "asn1.js-rfc3280": "^2.1.0",
