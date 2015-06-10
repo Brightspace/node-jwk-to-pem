@@ -4,7 +4,7 @@
   "description": "Convert a JSON Web Key to a PEM",
   "main": "src/jwk-to-pem.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "istanbul cover --root src _mocha -- spec"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,10 @@
     "asn1.js-rfc3280": "^2.1.0",
     "elliptic": "^3.0.4",
     "rsa-pem-from-mod-exp": "^0.8.4"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "istanbul": "^0.3.15",
+    "mocha": "^2.2.5"
   }
 }

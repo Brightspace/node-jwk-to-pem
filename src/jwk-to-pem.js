@@ -5,12 +5,12 @@ var ec = require('./ec'),
 
 function jwkToBuffer (jwk) {
 	if ('object' !== typeof jwk || null === jwk) {
-		throw new Error('Expected "jwk" to be an Object');
+		throw new TypeError('Expected "jwk" to be an Object');
 	}
 
 	var kty = jwk.kty;
 	if ('string' !== typeof kty) {
-		throw new Error('Expected "jwk.kty" to be a String');
+		throw new TypeError('Expected "jwk.kty" to be a String');
 	}
 
 	switch (kty) {

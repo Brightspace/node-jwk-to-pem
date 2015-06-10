@@ -13,15 +13,15 @@ function jwkParamToBigNum (val) {
 
 function ecJwkToBuffer (jwk) {
 	if ('string' !== typeof jwk.crv) {
-		throw new Error('Expected "jwk.crv" to be a String');
+		throw new TypeError('Expected "jwk.crv" to be a String');
 	}
 
 	if ('string' !== typeof jwk.x) {
-		throw new Error('Expected "jwk.x" to be a String');
+		throw new TypeError('Expected "jwk.x" to be a String');
 	}
 
 	if ('string' !== typeof jwk.y) {
-		throw new Error('Expected "jwk.y" to be a String');
+		throw new TypeError('Expected "jwk.y" to be a String');
 	}
 
 	var curve;
