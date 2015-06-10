@@ -1,0 +1,11 @@
+.gitignore
+.npmignore
+
+.editorconfig
+.jscs.json
+.jshintrc
+.jshintignore
+
+spec
+coverage
+.travis.yml

@@ -4,3 +4,12 @@ node_js:
 - iojs
 - '0.12'
 after_success: npm run report-cov
+deploy:
+  provider: npm
+  email: d2ltravisdeploy@d2l.com
+  api_key:
+    secure: tKnK+6fJMKYXYp/1VDleMzwXh4MRYHNNUq59E75DDQuXb1EwTs13LLhXyPkx+wsj+rKx5/aQxRwc8DVKir7fjszgvhLL0XJyUVFZGbmMUJ860J1X5KcFrmqj4zMXXpIpOHB6GdK5lfIbprO7GqukdcxMKE8WbxAIHRsm8cu2YOjk3fKioLdtawgjQFcgTQUH/2myOCc41HuYPqAXmi3vtJxyYfDOkJmX87tNSRGD46QkLeKUnUa6MFMIk0XkRzpCRxbKxSCGznmG/bFlhyONCK1ar6DKt6yNmBEaIRdGJuGTcnbr8qOUUVZYqzdmsivoZ+lwnE0xosYmlOPdsEo/J8PMi523BQzhw4rqeyesHc4/KtkOGQxlN1M4dYzoh/W1XLiXEofl43UCWRyRVwe+2PfALPKMd5qx5TAyPmxS0o1JvkZpxu500MDJKRlD5lkb+cOj0jVvLM2DyAd18O6O36sGxu92753ThV6oXphT5+YPF9XQSbksxC1LPFW3dfyGWPlaeGFlklslEQHrsFiCD2ivA/oJ+v4/ULAzI26ysQWaqyPaCky9IauMNfZETwe54j1W2hO6Xw1Qe0B15g6+3fopAYOEMz45l+Uk1euP7fZ4fOOyFMIeFGPRVjEI5DWyT2o5LvAcl3XiDTQpKediyu06Sb9sKSOfxGWu2Mb2BWk=
+  on:
+    all_branches: true
+    tags: true
+    repo: Brightspace/node-jwk-to-pem
