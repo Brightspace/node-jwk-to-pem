@@ -1,5 +1,5 @@
 {
-  "name": "@d2l/jwk-to-pem",
+  "name": "jwk-to-pem",
   "version": "1.0.0",
   "description": "Convert a JSON Web Key to a PEM",
   "main": "src/jwk-to-pem.js",
