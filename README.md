@@ -25,7 +25,7 @@ jwt.verify(token, pem);
 key type | support level
 ---------|--------------
  RSA     | all RSA keys
- EC      | _P-256_ curve
+ EC      | _P-256_, _P-384_, and _P-521_ curves
 
 ## Contributing
 

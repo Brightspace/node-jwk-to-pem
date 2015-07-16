@@ -2,7 +2,7 @@
 
 var asn1 = require('asn1.js'),
 	BN = asn1.bignum,
-	EC = require('elliptic').ec,
+	curves = require('./ec-curves'),
 	rfc3280 = require('asn1.js-rfc3280');
 
 function jwkParamToBigNum (val) {
@@ -24,15 +24,9 @@ function ecJwkToBuffer (jwk) {
 		throw new TypeError('Expected "jwk.y" to be a String');
 	}
 
-	var curve;
-	switch (jwk.crv) {
-		case 'P-256': {
-			curve = new EC('p256');
-			break;
-		}
-		default: {
-			throw new Error('Unsupported curve "' + jwk.crv + '"');
-		}
+	var curve = curves[jwk.crv];
+	if (!curve) {
+		throw new Error('Unsupported curve "' + jwk.crv + '"');
 	}
 
 	var x = jwkParamToBigNum(jwk.x),
@@ -50,6 +44,14 @@ function keyToPem (crv, key) {
 	switch (crv) {
 		case 'P-256': {
 			oid = [1, 2, 840, 10045, 3, 1, 7];
+			break;
+		}
+		case 'P-384': {
+			oid = [1, 3, 132, 0, 34];
+			break;
+		}
+		case 'P-521': {
+			oid = [1, 3, 132, 0, 35];
 			break;
 		}
 		default: {
