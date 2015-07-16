@@ -34,6 +34,11 @@ function ecJwkToBuffer (jwk) {
 
 	var key = curve.keyFromPublic({ x: x, y: y });
 
+	var keyValidation = key.validate();
+	if (!keyValidation.result) {
+		throw new Error('Invalid key for curve: "' + keyValidation.reason + '"');
+	}
+
 	var result = keyToPem(jwk.crv, key);
 
 	return result;
