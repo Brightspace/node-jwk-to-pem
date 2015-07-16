@@ -142,5 +142,15 @@ describe('ecdsa', function () {
 
 			expect(fn).to.throw(/"foozleberries"/);
 		});
+
+		it('point not on curve', function () {
+			var jwk = { kty: 'EC', crv: 'P-256', x: 'gh9MmX', y: '3BDZHsNv' };
+
+			function fn () {
+				return jwkToPem(jwk);
+			}
+
+			expect(fn).to.throw(/Invalid key for curve:/);
+		});
 	});
 });
