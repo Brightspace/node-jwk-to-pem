@@ -13,3 +13,4 @@ deploy:
     all_branches: true
     tags: true
     repo: Brightspace/node-jwk-to-pem
+  edge: true
