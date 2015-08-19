@@ -3,7 +3,7 @@
 var ec = require('./ec'),
 	rsa = require('./rsa');
 
-function jwkToBuffer (jwk) {
+function jwkToBuffer (jwk, opts) {
 	if ('object' !== typeof jwk || null === jwk) {
 		throw new TypeError('Expected "jwk" to be an Object');
 	}
@@ -13,12 +13,15 @@ function jwkToBuffer (jwk) {
 		throw new TypeError('Expected "jwk.kty" to be a String');
 	}
 
+	opts = opts || {};
+	opts.private = opts.private === true;
+
 	switch (kty) {
 		case 'EC': {
-			return ec(jwk);
+			return ec(jwk, opts);
 		}
 		case 'RSA': {
-			return rsa(jwk);
+			return rsa(jwk, opts);
 		}
 		default: {
 			throw new Error('Unsupported key type "' + kty + '"');

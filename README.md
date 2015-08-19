@@ -27,6 +27,24 @@ key type | support level
  RSA     | all RSA keys
  EC      | _P-256_, _P-384_, and _P-521_ curves
 
+### API
+
+---
+
+#### `jwkToPem(Object jwk[, Object options])` -> `String`
+
+The first parameter should be an Object representing the jwk, it may be public
+or private. By default, either of the two will be made into a public PEM. The
+call will throw if the input jwk is malformed or does not represent a valid
+key.
+
+##### Option: private `Boolean` _(false)_
+
+You may optionally specify that you would like a private PEM. This can be done
+by passing `true` to the `private` option. The call will throw if the necessary
+private parameters are not available.
+
+
 ## Contributing
 
 1. **Fork** the repository. Committing directly against this repository is
