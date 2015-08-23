@@ -26,8 +26,7 @@
   "dependencies": {
     "asn1.js": "^2.2.0",
     "asn1.js-rfc3280": "^2.1.0",
-    "elliptic": "^3.0.4",
-    "rsa-pem-from-mod-exp": "^0.8.4"
+    "elliptic": "^3.0.4"
   },
   "devDependencies": {
     "chai": "^3.0.0",

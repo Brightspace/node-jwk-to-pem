@@ -1,15 +1,10 @@
 'use strict';
 
 var asn1 = require('asn1.js'),
-	BN = asn1.bignum,
 	curves = require('./ec-curves'),
 	rfc3280 = require('asn1.js-rfc3280');
 
-function jwkParamToBigNum (val) {
-	val = new Buffer(val, 'base64');
-	val = new BN(val, 10, 'be').iabs();
-	return val;
-}
+var b64ToBn = require('./b64-to-bn');
 
 function ecJwkToBuffer (jwk, opts) {
 	if ('string' !== typeof jwk.crv) {
@@ -43,13 +38,13 @@ function ecJwkToBuffer (jwk, opts) {
 	var hasPub = jwk.x && jwk.y;
 	if (hasPub) {
 		key.pub = {
-			x: jwkParamToBigNum(jwk.x),
-			y: jwkParamToBigNum(jwk.y)
+			x: b64ToBn(jwk.x),
+			y: b64ToBn(jwk.y)
 		};
 	}
 
 	if (opts.private || !hasPub) {
-		key.priv = jwkParamToBigNum(jwk.d);
+		key.priv = b64ToBn(jwk.d);
 	}
 
 	key = curve.keyPair(key);
