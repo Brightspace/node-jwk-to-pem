@@ -80,21 +80,14 @@ function keyToPem (crv, key) {
 			unused: 0,
 			data: subjectPublicKey
 		}
-	}, 'der');
+	}, 'pem', {
+		label: 'PUBLIC KEY'
+	});
 
-	result = result.toString('base64');
-	result = guardDer(result);
-
-	return result;
-}
-
-function guardDer (der) {
-	var openGuard = '-----BEGIN PUBLIC KEY-----\n',
-			endGuard = '-----END PUBLIC KEY-----\n';
-
-	der = der.match(/.{1,64}/g).join('\n') + '\n';
-
-	var result = openGuard + der + endGuard;
+	// This is in an if incase asn1.js adds a trailing \n
+	if ('\n' !== result.slice(-1)) {
+		result += '\n';
+	}
 
 	return result;
 }
