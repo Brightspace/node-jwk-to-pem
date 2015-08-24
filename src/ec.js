@@ -1,27 +1,31 @@
 'use strict';
 
 var asn1 = require('asn1.js'),
-	BN = asn1.bignum,
 	curves = require('./ec-curves'),
 	rfc3280 = require('asn1.js-rfc3280');
 
-function jwkParamToBigNum (val) {
-	val = new Buffer(val, 'base64');
-	val = new BN(val, 10, 'be').iabs();
-	return val;
-}
+var b64ToBn = require('./b64-to-bn');
 
-function ecJwkToBuffer (jwk) {
+function ecJwkToBuffer (jwk, opts) {
 	if ('string' !== typeof jwk.crv) {
 		throw new TypeError('Expected "jwk.crv" to be a String');
 	}
 
-	if ('string' !== typeof jwk.x) {
+	var hasD = 'string' === typeof jwk.d;
+	var xyTypes = hasD
+		? ['undefined', 'string']
+		: ['string'];
+
+	if (-1 === xyTypes.indexOf(typeof jwk.x)) {
 		throw new TypeError('Expected "jwk.x" to be a String');
 	}
 
-	if ('string' !== typeof jwk.y) {
+	if (-1 === xyTypes.indexOf(typeof jwk.y)) {
 		throw new TypeError('Expected "jwk.y" to be a String');
+	}
+
+	if (opts.private && !hasD) {
+		throw new TypeError('Expected "jwk.d" to be a String');
 	}
 
 	var curve = curves[jwk.crv];
@@ -29,22 +33,33 @@ function ecJwkToBuffer (jwk) {
 		throw new Error('Unsupported curve "' + jwk.crv + '"');
 	}
 
-	var x = jwkParamToBigNum(jwk.x),
-		y = jwkParamToBigNum(jwk.y);
+	var key = {};
 
-	var key = curve.keyFromPublic({ x: x, y: y });
+	var hasPub = jwk.x && jwk.y;
+	if (hasPub) {
+		key.pub = {
+			x: b64ToBn(jwk.x),
+			y: b64ToBn(jwk.y)
+		};
+	}
+
+	if (opts.private || !hasPub) {
+		key.priv = b64ToBn(jwk.d);
+	}
+
+	key = curve.keyPair(key);
 
 	var keyValidation = key.validate();
 	if (!keyValidation.result) {
 		throw new Error('Invalid key for curve: "' + keyValidation.reason + '"');
 	}
 
-	var result = keyToPem(jwk.crv, key);
+	var result = keyToPem(jwk.crv, key, opts);
 
 	return result;
 }
 
-function keyToPem (crv, key) {
+function keyToPem (crv, key, opts) {
 	var oid;
 	switch (crv) {
 		case 'P-256': {
@@ -67,34 +82,46 @@ function keyToPem (crv, key) {
 	var compact = false;
 	var subjectPublicKey = key.getPublic(compact, 'hex');
 	subjectPublicKey = new Buffer(subjectPublicKey, 'hex');
+	subjectPublicKey = {
+		unused: 0,
+		data: subjectPublicKey
+	};
 
-	var result = rfc3280.SubjectPublicKeyInfo.encode({
-		algorithm: {
-			algorithm: [1, 2, 840, 10045, 2, 1],
-			parameters: ECParameters.encode({
-				type: 'namedCurve',
-				value: oid
-			}, 'der')
-		},
-		subjectPublicKey: {
-			unused: 0,
-			data: subjectPublicKey
-		}
+	var parameters = ECParameters.encode({
+		type: 'namedCurve',
+		value: oid
 	}, 'der');
 
-	result = result.toString('base64');
-	result = guardDer(result);
+	var result;
+	if (opts.private) {
+		var privateKey = key.getPrivate('hex');
+		privateKey = new Buffer(privateKey, 'hex');
 
-	return result;
-}
+		result = ECPrivateKey.encode({
+			version: ecPrivkeyVer1,
+			privateKey: privateKey,
+			parameters: parameters,
+			publicKey: subjectPublicKey
+		}, 'pem', {
+			label: 'EC PRIVATE KEY'
+		});
+	} else {
+		result = rfc3280.SubjectPublicKeyInfo.encode({
+			algorithm: {
+				algorithm: [1, 2, 840, 10045, 2, 1],
+				parameters: parameters
+			},
+			subjectPublicKey: subjectPublicKey
+		}, 'pem', {
+			label: 'PUBLIC KEY'
+		});
+	}
 
-function guardDer (der) {
-	var openGuard = '-----BEGIN PUBLIC KEY-----\n',
-			endGuard = '-----END PUBLIC KEY-----\n';
-
-	der = der.match(/.{1,64}/g).join('\n') + '\n';
-
-	var result = openGuard + der + endGuard;
+	// This is in an if incase asn1.js adds a trailing \n
+	// istanbul ignore else
+	if ('\n' !== result.slice(-1)) {
+		result += '\n';
+	}
 
 	return result;
 }
@@ -103,6 +130,17 @@ var ECParameters = asn1.define('ECParameters', function () {
 	this.choice({
 		namedCurve: this.objid()
 	});
+});
+
+var ecPrivkeyVer1 = 1;
+
+var ECPrivateKey = asn1.define('ECPrivateKey', function () {
+	this.seq().obj(
+		this.key('version').int(),
+		this.key('privateKey').octstr(),
+		this.key('parameters').explicit(0).optional().any(),
+		this.key('publicKey').explicit(1).optional().bitstr()
+	);
 });
 
 module.exports = ecJwkToBuffer;
