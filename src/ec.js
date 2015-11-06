@@ -7,10 +7,15 @@ var asn1 = require('asn1.js'),
 var b64ToBn = require('./b64-to-bn');
 
 var curves = {
-	'P-256': 'p256',
-	'P-384': 'p384',
-	'P-521': 'p521'
-};
+		'P-256': 'p256',
+		'P-384': 'p384',
+		'P-521': 'p521'
+	},
+	oids = {
+		'P-256': [1, 2, 840, 10045, 3, 1, 7],
+		'P-384': [1, 3, 132, 0, 34],
+		'P-521': [1, 3, 132, 0, 35]
+	};
 
 function ecJwkToBuffer (jwk, opts) {
 	if ('string' !== typeof jwk.crv) {
@@ -68,25 +73,6 @@ function ecJwkToBuffer (jwk, opts) {
 }
 
 function keyToPem (crv, key, opts) {
-	var oid;
-	switch (crv) {
-		case 'P-256': {
-			oid = [1, 2, 840, 10045, 3, 1, 7];
-			break;
-		}
-		case 'P-384': {
-			oid = [1, 3, 132, 0, 34];
-			break;
-		}
-		case 'P-521': {
-			oid = [1, 3, 132, 0, 35];
-			break;
-		}
-		default: {
-			throw new Error('Unsupported curve "' + crv + '"');
-		}
-	}
-
 	var compact = false;
 	var subjectPublicKey = key.getPublic(compact, 'hex');
 	subjectPublicKey = new Buffer(subjectPublicKey, 'hex');
@@ -97,7 +83,7 @@ function keyToPem (crv, key, opts) {
 
 	var parameters = ECParameters.encode({
 		type: 'namedCurve',
-		value: oid
+		value: oids[crv]
 	}, 'der');
 
 	var result;
