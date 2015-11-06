@@ -1,10 +1,16 @@
 'use strict';
 
 var asn1 = require('asn1.js'),
-	curves = require('./ec-curves'),
+	EC = require('elliptic').ec,
 	rfc3280 = require('asn1.js-rfc3280');
 
 var b64ToBn = require('./b64-to-bn');
+
+var curves = {
+	'P-256': 'p256',
+	'P-384': 'p384',
+	'P-521': 'p521'
+};
 
 function ecJwkToBuffer (jwk, opts) {
 	if ('string' !== typeof jwk.crv) {
@@ -28,10 +34,12 @@ function ecJwkToBuffer (jwk, opts) {
 		throw new TypeError('Expected "jwk.d" to be a String');
 	}
 
-	var curve = curves[jwk.crv];
-	if (!curve) {
+	var curveName = curves[jwk.crv];
+	if (!curveName) {
 		throw new Error('Unsupported curve "' + jwk.crv + '"');
 	}
+
+	var curve = new EC(curveName);
 
 	var key = {};
 
