@@ -4,11 +4,11 @@ var asn1 = require('asn1.js');
 
 var b64ToBn = require('./b64-to-bn');
 
-var Version = asn1.define('Version', function () {
+var Version = asn1.define('Version', /* @this */ function() {
 	this.int();
 });
 
-var RSAPrivateKey = asn1.define('RSAPrivateKey', function () {
+var RSAPrivateKey = asn1.define('RSAPrivateKey', /* @this */ function() {
 	this.seq().obj(
 		this.key('version').use(Version),
 		this.key('modulus').int(),
@@ -22,14 +22,14 @@ var RSAPrivateKey = asn1.define('RSAPrivateKey', function () {
 	);
 });
 
-var RSAPublicKey = asn1.define('RSAPublicKey', function () {
+var RSAPublicKey = asn1.define('RSAPublicKey', /* @this */ function() {
 	this.seq().obj(
 		this.key('modulus').int(),
 		this.key('publicExponent').int()
 	);
 });
 
-function rsaJwkToBuffer (jwk, opts) {
+function rsaJwkToBuffer(jwk, opts) {
 	if ('string' !== typeof jwk.e) {
 		throw new TypeError('Expected "jwk.e" to be a String');
 	}

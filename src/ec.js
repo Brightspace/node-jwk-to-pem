@@ -17,7 +17,7 @@ var curves = {
 		'P-521': [1, 3, 132, 0, 35]
 	};
 
-function ecJwkToBuffer (jwk, opts) {
+function ecJwkToBuffer(jwk, opts) {
 	if ('string' !== typeof jwk.crv) {
 		throw new TypeError('Expected "jwk.crv" to be a String');
 	}
@@ -72,7 +72,7 @@ function ecJwkToBuffer (jwk, opts) {
 	return result;
 }
 
-function keyToPem (crv, key, opts) {
+function keyToPem(crv, key, opts) {
 	var compact = false;
 	var subjectPublicKey = key.getPublic(compact, 'hex');
 	subjectPublicKey = new Buffer(subjectPublicKey, 'hex');
@@ -120,7 +120,7 @@ function keyToPem (crv, key, opts) {
 	return result;
 }
 
-var ECParameters = asn1.define('ECParameters', function () {
+var ECParameters = asn1.define('ECParameters', /* @this */ function() {
 	this.choice({
 		namedCurve: this.objid()
 	});
@@ -128,7 +128,7 @@ var ECParameters = asn1.define('ECParameters', function () {
 
 var ecPrivkeyVer1 = 1;
 
-var ECPrivateKey = asn1.define('ECPrivateKey', function () {
+var ECPrivateKey = asn1.define('ECPrivateKey', /* @this */ function() {
 	this.seq().obj(
 		this.key('version').int(),
 		this.key('privateKey').octstr(),
