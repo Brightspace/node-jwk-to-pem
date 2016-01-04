@@ -8,33 +8,33 @@ var describe = mocha.describe,
 
 var jwkToPem = require('..');
 
-describe('should throw for', function () {
-	it('non object', function () {
-		function fn () {
+describe('should throw for', function() {
+	it('non object', function() {
+		function fn() {
 			return jwkToPem('hi');
 		}
 
 		expect(fn).to.throw(TypeError);
 	});
 
-	it('null', function () {
-		function fn () {
+	it('null', function() {
+		function fn() {
 			return jwkToPem(null);
 		}
 
 		expect(fn).to.throw(TypeError);
 	});
 
-	it('non string key type', function () {
-		function fn () {
+	it('non string key type', function() {
+		function fn() {
 			return jwkToPem({ kty: {} });
 		}
 
 		expect(fn).to.throw(TypeError);
 	});
 
-	it('unknown key type', function () {
-		function fn () {
+	it('unknown key type', function() {
+		function fn() {
 			return jwkToPem({ kty: 'foozleberries' });
 		}
 

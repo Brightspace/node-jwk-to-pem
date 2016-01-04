@@ -9,9 +9,9 @@ var describe = mocha.describe,
 
 var jwkToPem = require('..');
 
-describe('ecdsa', function () {
-	describe('P-256', function () {
-		it('should convert a public JWK to a public PEM', function () {
+describe('ecdsa', function() {
+	describe('P-256', function() {
+		it('should convert a public JWK to a public PEM', function() {
 			var jwk = {
 				crv: 'P-256',
 				kty: 'EC',
@@ -29,7 +29,7 @@ describe('ecdsa', function () {
 			expect(jwkToPem(jwk)).to.equal(expected);
 		});
 
-		it('should convert a private JWK to a public PEM', function () {
+		it('should convert a private JWK to a public PEM', function() {
 			var jwk = {
 				kty: 'EC',
 				crv: 'P-256',
@@ -46,7 +46,7 @@ describe('ecdsa', function () {
 			expect(jwkToPem(jwk)).to.equal(expected);
 		});
 
-		it('should convert a private JWK to a private PEM when private option is specified', function () {
+		it('should convert a private JWK to a private PEM when private option is specified', function() {
 			var jwk = {
 				kty: 'EC',
 				crv: 'P-256',
@@ -64,8 +64,7 @@ describe('ecdsa', function () {
 			expect(jwkToPem(jwk, { private: true })).to.equal(expected);
 		});
 
-
-		it('should round-trip sign/verify with public and private keys', function () {
+		it('should round-trip sign/verify with public and private keys', function() {
 			var jwk = {
 				kty: 'EC',
 				crv: 'P-256',
@@ -82,8 +81,8 @@ describe('ecdsa', function () {
 		});
 	});
 
-	describe('P-384', function () {
-		it('should convert a public JWK to a public PEM', function () {
+	describe('P-384', function() {
+		it('should convert a public JWK to a public PEM', function() {
 			var jwk = {
 				crv: 'P-384',
 				kty: 'EC',
@@ -102,7 +101,7 @@ describe('ecdsa', function () {
 			expect(jwkToPem(jwk)).to.equal(expected);
 		});
 
-		it('should convert a private JWK to a public PEM', function () {
+		it('should convert a private JWK to a public PEM', function() {
 			var jwk = {
 				kty: 'EC',
 				crv: 'P-384',
@@ -120,7 +119,7 @@ describe('ecdsa', function () {
 			expect(jwkToPem(jwk)).to.equal(expected);
 		});
 
-		it('should convert a private JWK to a private PEM when private option is specified', function () {
+		it('should convert a private JWK to a private PEM when private option is specified', function() {
 			var jwk = {
 				kty: 'EC',
 				crv: 'P-384',
@@ -139,8 +138,7 @@ describe('ecdsa', function () {
 			expect(jwkToPem(jwk, { private: true })).to.equal(expected);
 		});
 
-
-		it('should round-trip sign/verify with public and private keys', function () {
+		it('should round-trip sign/verify with public and private keys', function() {
 			var jwk = {
 				kty: 'EC',
 				crv: 'P-384',
@@ -157,8 +155,8 @@ describe('ecdsa', function () {
 		});
 	});
 
-	describe('P-521', function () {
-		it('should convert a public JWK to a public PEM', function () {
+	describe('P-521', function() {
+		it('should convert a public JWK to a public PEM', function() {
 			var jwk = {
 				crv: 'P-521',
 				kty: 'EC',
@@ -178,7 +176,7 @@ describe('ecdsa', function () {
 			expect(jwkToPem(jwk)).to.equal(expected);
 		});
 
-		it('should convert a private JWK to a public PEM', function () {
+		it('should convert a private JWK to a public PEM', function() {
 			var jwk = {
 				kty: 'EC',
 				crv: 'P-521',
@@ -197,7 +195,7 @@ describe('ecdsa', function () {
 			expect(jwkToPem(jwk)).to.equal(expected);
 		});
 
-		it('should convert a private JWK to a private PEM when private option is specified', function () {
+		it('should convert a private JWK to a private PEM when private option is specified', function() {
 			var jwk = {
 				kty: 'EC',
 				crv: 'P-521',
@@ -217,8 +215,7 @@ describe('ecdsa', function () {
 			expect(jwkToPem(jwk, { private: true })).to.equal(expected);
 		});
 
-
-		it('should round-trip sign/verify with public and private keys', function () {
+		it('should round-trip sign/verify with public and private keys', function() {
 			var jwk = {
 				kty: 'EC',
 				crv: 'P-521',
@@ -235,101 +232,101 @@ describe('ecdsa', function () {
 		});
 	});
 
-	describe('should throw for', function () {
-		it('missing crv', function () {
+	describe('should throw for', function() {
+		it('missing crv', function() {
 			var jwk = { kty: 'EC', x: 'foo', y: 'bar' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string crv', function () {
+		it('non-string crv', function() {
 			var jwk = { kty: 'EC', crv: {}, x: 'foo', y: 'bar' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('missing x', function () {
+		it('missing x', function() {
 			var jwk = { kty: 'EC', crv: 'P-256', y: 'bar' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string x', function () {
+		it('non-string x', function() {
 			var jwk = { kty: 'EC', crv: 'P-256', x: {}, y: 'bar' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('missing y', function () {
+		it('missing y', function() {
 			var jwk = { kty: 'EC', crv: 'P-256', x: 'foo' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string y', function () {
+		it('non-string y', function() {
 			var jwk = { kty: 'EC', crv: 'P-256', x: 'foo', y: {} };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('unknown curve', function () {
+		it('unknown curve', function() {
 			var jwk = { kty: 'EC', crv: 'foozleberries', x: 'foo', y: 'bar' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(/"foozleberries"/);
 		});
 
-		it('point not on curve', function () {
+		it('point not on curve', function() {
 			var jwk = { kty: 'EC', crv: 'P-256', x: 'gh9MmX', y: '3BDZHsNv' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(/Invalid key for curve:/);
 		});
 
-		it('missing d when private is enabled', function () {
+		it('missing d when private is enabled', function() {
 			var jwk = { kty: 'EC', crv: 'P-256', x: 'gh9MmX', y: '3BDZHsNv' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string d when private is enabled', function () {
+		it('non-string d when private is enabled', function() {
 			var jwk = { kty: 'EC', crv: 'P-256', x: 'gh9MmX', y: '3BDZHsNv', d: {} };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 

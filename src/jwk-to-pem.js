@@ -3,7 +3,7 @@
 var ec = require('./ec'),
 	rsa = require('./rsa');
 
-function jwkToBuffer (jwk, opts) {
+function jwkToBuffer(jwk, opts) {
 	if ('object' !== typeof jwk || null === jwk) {
 		throw new TypeError('Expected "jwk" to be an Object');
 	}

@@ -62,11 +62,10 @@ private parameters are not available.
 
 ### Code Style
 
-This repository is configured with [EditorConfig][EditorConfig], [jscs][jscs]
-and [JSHint][JSHint] rules.
+This repository is configured with [EditorConfig][EditorConfig] and
+[ESLint][ESLint] rules.
 
 [algs]: https://tools.ietf.org/html/rfc7518#section-3.1
 [jwk]: https://tools.ietf.org/html/rfc7517
 [EditorConfig]: http://editorconfig.org/
-[jscs]: http://jscs.info/
-[JSHint]: http://jshint.com/
+[ESLint]: http://eslint.org

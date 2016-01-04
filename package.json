@@ -4,6 +4,8 @@
   "description": "Convert a JSON Web Key to a PEM",
   "main": "src/jwk-to-pem.js",
   "scripts": {
+    "check-style": "eslint .",
+    "pretest": "npm run check-style",
     "test": "istanbul cover --root src _mocha -- spec",
     "report-cov": "cat ./coverage/lcov.info | coveralls"
   },
@@ -31,6 +33,8 @@
   "devDependencies": {
     "chai": "^3.4.0",
     "coveralls": "^2.11.4",
+    "eslint": "^1.10.3",
+    "eslint-config-brightspace": "^0.1.0",
     "istanbul": "^0.4.0",
     "jwa": "^1.1.0",
     "mocha": "^2.3.3"

@@ -9,8 +9,8 @@ var describe = mocha.describe,
 
 var jwkToPem = require('..');
 
-describe('rsa', function () {
-	it('should convert a public JWK to a public PEM', function () {
+describe('rsa', function() {
+	it('should convert a public JWK to a public PEM', function() {
 		var jwk = {
 			kty: 'RSA',
 			n: '7vjaE_vNFz-FbQ4GNNh-OeY6K4qWyDIvLUfz0YlhjPKfpGSv3mrcatEbAL_vny_FdCgbg1Co_bb6t_p2B2iFdVjY5hr1bXkViPVA-77-F1Cx57ZozEBixNv1-6NbfEiA_OsaPR0kMdkI9iWhF7TokMleHF1RJ_2WR1vcRb-Z99x5LitYTZTmYkcjsZiQBs_YQOZ220WOYNywgg6Xd03ErqAkltucegb4XUkmVl9JxiHoDrXVAmRUj2stDSvE4b2XftNU86v1p8FMykaeQUUXz_8EcTPdt5SydUPtCcdspSFKbKJh4aP_Zp3Fv1iOyQOsF5WB8CO7FssKLBGElHEriQ',
@@ -31,7 +31,7 @@ describe('rsa', function () {
 		expect(jwkToPem(jwk)).to.equal(expected);
 	});
 
-	it('should convert a private JWK to a public PEM', function () {
+	it('should convert a private JWK to a public PEM', function() {
 		var jwk = {
 			kty: 'RSA',
 			n: '0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw',
@@ -41,7 +41,7 @@ describe('rsa', function () {
 			q: '3dfOR9cuYq-0S-mkFLzgItgMEfFzB2q3hWehMuG0oCuqnb3vobLyumqjVZQO1dIrdwgTnCdpYzBcOfW5r370AFXjiWft_NGEiovonizhKpo9VVS78TzFgxkIdrecRezsZ-1kYd_s1qDbxtkDEgfAITAG9LUnADun4vIcb6yelxk',
 			dp: 'G4sPXkc6Ya9y8oJW9_ILj4xuppu0lzi_H7VTkS8xj5SdX3coE0oimYwxIi2emTAue0UOa5dpgFGyBJ4c8tQ2VF402XRugKDTP8akYhFo5tAA77Qe_NmtuYZc3C3m3I24G2GvR5sSDxUyAN2zq8Lfn9EUms6rY3Ob8YeiKkTiBj0',
 			dq: 's9lAH9fggBsoFR8Oac2R_E2gw282rT2kGOAhvIllETE1efrA6huUUvMfBcMpn8lqeW6vzznYY5SSQF7pMdC_agI3nG8Ibp1BUb0JUiraRNqUfLhcQb_d9GF4Dh7e74WbRsobRonujTYN1xCaP6TO61jvWrX-L18txXw494Q_cgk',
-			qi: 'GyM_p6JrXySiz1toFgKbWV-JdI3jQ4ypu9rbMWx3rQJBfmt0FoYzgUIZEVFEcOqwemRN81zoDAaa-Bk0KWNGDjJHZDdDmFhW3AN7lI-puxk_mHZGJ11rxyR8O55XLSe3SPmRfKwZI6yU24ZxvQKFYItdldUKGzO6Ia6zTKhAVRU',
+			qi: 'GyM_p6JrXySiz1toFgKbWV-JdI3jQ4ypu9rbMWx3rQJBfmt0FoYzgUIZEVFEcOqwemRN81zoDAaa-Bk0KWNGDjJHZDdDmFhW3AN7lI-puxk_mHZGJ11rxyR8O55XLSe3SPmRfKwZI6yU24ZxvQKFYItdldUKGzO6Ia6zTKhAVRU'
 		};
 
 		var expected =
@@ -57,7 +57,7 @@ describe('rsa', function () {
 		expect(jwkToPem(jwk)).to.equal(expected);
 	});
 
-	it('should convert a private JWK to a pribate PEM when private option is specified', function () {
+	it('should convert a private JWK to a pribate PEM when private option is specified', function() {
 		var jwk = {
 			kty: 'RSA',
 			n: '0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw',
@@ -67,7 +67,7 @@ describe('rsa', function () {
 			q: '3dfOR9cuYq-0S-mkFLzgItgMEfFzB2q3hWehMuG0oCuqnb3vobLyumqjVZQO1dIrdwgTnCdpYzBcOfW5r370AFXjiWft_NGEiovonizhKpo9VVS78TzFgxkIdrecRezsZ-1kYd_s1qDbxtkDEgfAITAG9LUnADun4vIcb6yelxk',
 			dp: 'G4sPXkc6Ya9y8oJW9_ILj4xuppu0lzi_H7VTkS8xj5SdX3coE0oimYwxIi2emTAue0UOa5dpgFGyBJ4c8tQ2VF402XRugKDTP8akYhFo5tAA77Qe_NmtuYZc3C3m3I24G2GvR5sSDxUyAN2zq8Lfn9EUms6rY3Ob8YeiKkTiBj0',
 			dq: 's9lAH9fggBsoFR8Oac2R_E2gw282rT2kGOAhvIllETE1efrA6huUUvMfBcMpn8lqeW6vzznYY5SSQF7pMdC_agI3nG8Ibp1BUb0JUiraRNqUfLhcQb_d9GF4Dh7e74WbRsobRonujTYN1xCaP6TO61jvWrX-L18txXw494Q_cgk',
-			qi: 'GyM_p6JrXySiz1toFgKbWV-JdI3jQ4ypu9rbMWx3rQJBfmt0FoYzgUIZEVFEcOqwemRN81zoDAaa-Bk0KWNGDjJHZDdDmFhW3AN7lI-puxk_mHZGJ11rxyR8O55XLSe3SPmRfKwZI6yU24ZxvQKFYItdldUKGzO6Ia6zTKhAVRU',
+			qi: 'GyM_p6JrXySiz1toFgKbWV-JdI3jQ4ypu9rbMWx3rQJBfmt0FoYzgUIZEVFEcOqwemRN81zoDAaa-Bk0KWNGDjJHZDdDmFhW3AN7lI-puxk_mHZGJ11rxyR8O55XLSe3SPmRfKwZI6yU24ZxvQKFYItdldUKGzO6Ia6zTKhAVRU'
 		};
 
 		var expected =
@@ -102,7 +102,7 @@ describe('rsa', function () {
 		expect(jwkToPem(jwk, { private: true })).to.equal(expected);
 	});
 
-	it('should round-trip sign/verify with public and private keys', function () {
+	it('should round-trip sign/verify with public and private keys', function() {
 		var jwk = {
 			kty: 'RSA',
 			n: '0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc_BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ_2W-5JsGY4Hc5n9yBXArwl93lqt7_RN5w6Cf0h4QyQ5v-65YGjQR0_FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt-bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ-G_xBniIqbw0Ls1jF44-csFCur-kEgU8awapJzKnqDKgw',
@@ -112,7 +112,7 @@ describe('rsa', function () {
 			q: '3dfOR9cuYq-0S-mkFLzgItgMEfFzB2q3hWehMuG0oCuqnb3vobLyumqjVZQO1dIrdwgTnCdpYzBcOfW5r370AFXjiWft_NGEiovonizhKpo9VVS78TzFgxkIdrecRezsZ-1kYd_s1qDbxtkDEgfAITAG9LUnADun4vIcb6yelxk',
 			dp: 'G4sPXkc6Ya9y8oJW9_ILj4xuppu0lzi_H7VTkS8xj5SdX3coE0oimYwxIi2emTAue0UOa5dpgFGyBJ4c8tQ2VF402XRugKDTP8akYhFo5tAA77Qe_NmtuYZc3C3m3I24G2GvR5sSDxUyAN2zq8Lfn9EUms6rY3Ob8YeiKkTiBj0',
 			dq: 's9lAH9fggBsoFR8Oac2R_E2gw282rT2kGOAhvIllETE1efrA6huUUvMfBcMpn8lqeW6vzznYY5SSQF7pMdC_agI3nG8Ibp1BUb0JUiraRNqUfLhcQb_d9GF4Dh7e74WbRsobRonujTYN1xCaP6TO61jvWrX-L18txXw494Q_cgk',
-			qi: 'GyM_p6JrXySiz1toFgKbWV-JdI3jQ4ypu9rbMWx3rQJBfmt0FoYzgUIZEVFEcOqwemRN81zoDAaa-Bk0KWNGDjJHZDdDmFhW3AN7lI-puxk_mHZGJ11rxyR8O55XLSe3SPmRfKwZI6yU24ZxvQKFYItdldUKGzO6Ia6zTKhAVRU',
+			qi: 'GyM_p6JrXySiz1toFgKbWV-JdI3jQ4ypu9rbMWx3rQJBfmt0FoYzgUIZEVFEcOqwemRN81zoDAaa-Bk0KWNGDjJHZDdDmFhW3AN7lI-puxk_mHZGJ11rxyR8O55XLSe3SPmRfKwZI6yU24ZxvQKFYItdldUKGzO6Ia6zTKhAVRU'
 		};
 
 		var priv = jwkToPem(jwk, { private: true }),
@@ -124,161 +124,161 @@ describe('rsa', function () {
 		expect(alg.verify(input, alg.sign(input, priv), pub)).to.be.true;
 	});
 
-	describe('should throw for', function () {
-		it('missing n', function () {
+	describe('should throw for', function() {
+		it('missing n', function() {
 			var jwk = { kty: 'RSA', e: 'AQAB' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string n', function () {
+		it('non-string n', function() {
 			var jwk = { kty: 'RSA', n: {}, e: 'AQAB' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('missing e', function () {
+		it('missing e', function() {
 			var jwk = { kty: 'RSA', n: 'foo' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string e', function () {
+		it('non-string e', function() {
 			var jwk = { kty: 'RSA', n: 'foo', e: {} };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk);
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('missing d when private', function () {
+		it('missing d when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', p: 'd', q: 'e', dp: 'f', dq: 'g', qi: 'h' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string d when private', function () {
+		it('non-string d when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: {}, p: 'd', q: 'e', dp: 'f', dq: 'g', qi: 'h' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('missing p when private', function () {
+		it('missing p when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: 'c', q: 'e', dp: 'f', dq: 'g', qi: 'h' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string p when private', function () {
+		it('non-string p when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: 'c', p: {}, q: 'e', dp: 'f', dq: 'g', qi: 'h' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('missing q when private', function () {
+		it('missing q when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: 'c', p: 'd', dp: 'f', dq: 'g', qi: 'h' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string q when private', function () {
+		it('non-string q when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: 'c', p: 'd', q: {}, dp: 'f', dq: 'g', qi: 'h' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('missing dp when private', function () {
+		it('missing dp when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: 'c', p: 'd', q: 'e', dq: 'g', qi: 'h' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string dp when private', function () {
+		it('non-string dp when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: 'c', p: 'd', q: 'e', dp: {}, dq: 'g', qi: 'h' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('missing dq when private', function () {
+		it('missing dq when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: 'c', p: 'd', q: 'e', dp: 'f', qi: 'h' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string dq when private', function () {
+		it('non-string dq when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: 'c', p: 'd', q: 'e', dp: 'f', dq: {}, qi: 'h' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('missing qi when private', function () {
+		it('missing qi when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: 'c', p: 'd', q: 'e', dp: 'f', dq: 'g' };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
 			expect(fn).to.throw(TypeError);
 		});
 
-		it('non-string qi when private', function () {
+		it('non-string qi when private', function() {
 			var jwk = { kty: 'RSA', n: 'a', e: 'b', d: 'c', p: 'd', q: 'e', dp: 'f', dq: 'g', qi: {} };
 
-			function fn () {
+			function fn() {
 				return jwkToPem(jwk, { private: true });
 			}
 
