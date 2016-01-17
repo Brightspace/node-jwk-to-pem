@@ -68,21 +68,21 @@ function rsaJwkToBuffer(jwk, opts) {
 	if (opts.private) {
 		pem = RSAPrivateKey.encode({
 			version: 0,
-			modulus: b64ToBn(jwk.n),
-			publicExponent: b64ToBn(jwk.e),
-			privateExponent: b64ToBn(jwk.d),
-			prime1: b64ToBn(jwk.p),
-			prime2: b64ToBn(jwk.q),
-			exponent1: b64ToBn(jwk.dp),
-			exponent2: b64ToBn(jwk.dq),
-			coefficient: b64ToBn(jwk.qi)
+			modulus: b64ToBn(jwk.n, false),
+			publicExponent: b64ToBn(jwk.e, false),
+			privateExponent: b64ToBn(jwk.d, true),
+			prime1: b64ToBn(jwk.p, true),
+			prime2: b64ToBn(jwk.q, true),
+			exponent1: b64ToBn(jwk.dp, true),
+			exponent2: b64ToBn(jwk.dq, true),
+			coefficient: b64ToBn(jwk.qi, true)
 		}, 'pem', {
 			label: 'RSA PRIVATE KEY'
 		});
 	} else {
 		pem = RSAPublicKey.encode({
-			modulus: b64ToBn(jwk.n),
-			publicExponent: b64ToBn(jwk.e)
+			modulus: b64ToBn(jwk.n, false),
+			publicExponent: b64ToBn(jwk.e, false)
 		}, 'pem', {
 			label: 'RSA PUBLIC KEY'
 		});
