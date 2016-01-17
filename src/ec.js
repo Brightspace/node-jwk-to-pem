@@ -51,13 +51,13 @@ function ecJwkToBuffer(jwk, opts) {
 	var hasPub = jwk.x && jwk.y;
 	if (hasPub) {
 		key.pub = {
-			x: b64ToBn(jwk.x),
-			y: b64ToBn(jwk.y)
+			x: b64ToBn(jwk.x, false),
+			y: b64ToBn(jwk.y, false)
 		};
 	}
 
 	if (opts.private || !hasPub) {
-		key.priv = b64ToBn(jwk.d);
+		key.priv = b64ToBn(jwk.d, true);
 	}
 
 	key = curve.keyPair(key);
@@ -99,6 +99,8 @@ function keyToPem(crv, key, opts) {
 		}, 'pem', {
 			label: 'EC PRIVATE KEY'
 		});
+
+		privateKey.fill(0);
 	} else {
 		result = rfc3280.SubjectPublicKeyInfo.encode({
 			algorithm: {
