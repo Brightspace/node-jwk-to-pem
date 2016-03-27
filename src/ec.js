@@ -1,8 +1,7 @@
 'use strict';
 
 var asn1 = require('asn1.js'),
-	EC = require('elliptic').ec,
-	rfc3280 = require('asn1.js-rfc3280');
+	EC = require('elliptic').ec;
 
 var b64ToBn = require('./b64-to-bn');
 
@@ -102,7 +101,7 @@ function keyToPem(crv, key, opts) {
 
 		privateKey.fill(0);
 	} else {
-		result = rfc3280.SubjectPublicKeyInfo.encode({
+		result = SubjectPublicKeyInfo.encode({
 			algorithm: {
 				algorithm: [1, 2, 840, 10045, 2, 1],
 				parameters: parameters
@@ -136,6 +135,20 @@ var ECPrivateKey = asn1.define('ECPrivateKey', /* @this */ function() {
 		this.key('privateKey').octstr(),
 		this.key('parameters').explicit(0).optional().any(),
 		this.key('publicKey').explicit(1).optional().bitstr()
+	);
+});
+
+var AlgorithmIdentifier = asn1.define('AlgorithmIdentifier', /* @this */ function() {
+	this.seq().obj(
+		this.key('algorithm').objid(),
+		this.key('parameters').optional().any()
+	);
+});
+
+var SubjectPublicKeyInfo = asn1.define('SubjectPublicKeyInfo', /* @this */ function() {
+	this.seq().obj(
+		this.key('algorithm').use(AlgorithmIdentifier),
+		this.key('subjectPublicKey').bitstr()
 	);
 });
 
