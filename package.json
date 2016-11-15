@@ -27,7 +27,8 @@
   "homepage": "https://github.com/Brightspace/node-jwk-to-pem#readme",
   "dependencies": {
     "asn1.js": "^4.5.2",
-    "elliptic": "^6.2.3"
+    "elliptic": "^6.2.3",
+    "safe-buffer": "^5.0.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
