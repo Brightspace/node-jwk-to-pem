@@ -1,6 +1,7 @@
 'use strict';
 
 var asn1 = require('asn1.js'),
+	Buffer = require('safe-buffer').Buffer,
 	EC = require('elliptic').ec;
 
 var b64ToBn = require('./b64-to-bn');
@@ -74,7 +75,7 @@ function ecJwkToBuffer(jwk, opts) {
 function keyToPem(crv, key, opts) {
 	var compact = false;
 	var subjectPublicKey = key.getPublic(compact, 'hex');
-	subjectPublicKey = new Buffer(subjectPublicKey, 'hex');
+	subjectPublicKey = Buffer.from(subjectPublicKey, 'hex');
 	subjectPublicKey = {
 		unused: 0,
 		data: subjectPublicKey
@@ -88,7 +89,7 @@ function keyToPem(crv, key, opts) {
 	var result;
 	if (opts.private) {
 		var privateKey = key.getPrivate('hex');
-		privateKey = new Buffer(privateKey, 'hex');
+		privateKey = Buffer.from(privateKey, 'hex');
 
 		result = ECPrivateKey.encode({
 			version: ecPrivkeyVer1,

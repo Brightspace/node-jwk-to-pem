@@ -1,6 +1,7 @@
 'use strict';
 
-var expect = require('chai').expect,
+var Buffer = require('safe-buffer').Buffer,
+	expect = require('chai').expect,
 	jwa = require('jwa'),
 	mocha = require('mocha');
 
@@ -119,7 +120,7 @@ describe('rsa', function() {
 			pub = jwkToPem(jwk);
 
 		var alg = jwa('rs256'),
-			input = new Buffer('stuff n\' things', 'utf8');
+			input = Buffer.from('stuff n\' things', 'utf8');
 
 		expect(alg.verify(input, alg.sign(input, priv), pub)).to.be.true;
 	});
