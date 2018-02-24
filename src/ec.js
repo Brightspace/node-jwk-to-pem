@@ -6,18 +6,51 @@ var asn1 = require('asn1.js'),
 
 var b64ToBn = require('./b64-to-bn');
 
-var PublicKeyInfo = require('./asn1/public-key-info');
+var PublicKeyInfo = require('./asn1/public-key-info'),
+	PrivateKeyInfo = require('./asn1/private-key-info'),
+	Version = require('./asn1/version');
+
+var ECParameters = asn1.define('ECParameters', /* @this */ function() {
+	this.choice({
+		namedCurve: this.objid()
+	});
+});
+
+var ecPrivkeyVer1 = 1;
+
+var ECPrivateKey = asn1.define('ECPrivateKey', /* @this */ function() {
+	this.seq().obj(
+		this.key('version').use(Version),
+		this.key('privateKey').octstr(),
+		this.key('parameters').explicit(0).optional().any(),
+		this.key('publicKey').explicit(1).optional().bitstr()
+	);
+});
 
 var curves = {
-		'P-256': 'p256',
-		'P-384': 'p384',
-		'P-521': 'p521'
-	},
-	oids = {
-		'P-256': [1, 2, 840, 10045, 3, 1, 7],
-		'P-384': [1, 3, 132, 0, 34],
-		'P-521': [1, 3, 132, 0, 35]
+	'P-256': 'p256',
+	'P-384': 'p384',
+	'P-521': 'p521'
+};
+
+var oids = {
+	'P-256': [1, 2, 840, 10045, 3, 1, 7],
+	'P-384': [1, 3, 132, 0, 34],
+	'P-521': [1, 3, 132, 0, 35]
+};
+var parameters = {};
+var algorithms = {};
+Object.keys(oids).forEach(function(crv) {
+	parameters[crv] = ECParameters.encode({
+		type: 'namedCurve',
+		value: oids[crv]
+	}, 'der');
+	algorithms[crv] = {
+		algorithm:  [1, 2, 840, 10045, 2, 1],
+		parameters: parameters[crv]
 	};
+});
+oids = null;
 
 function ecJwkToBuffer(jwk, opts) {
 	if ('string' !== typeof jwk.crv) {
@@ -83,32 +116,28 @@ function keyToPem(crv, key, opts) {
 		data: publicKey
 	};
 
-	var parameters = ECParameters.encode({
-		type: 'namedCurve',
-		value: oids[crv]
-	}, 'der');
-
 	var result;
 	if (opts.private) {
 		var privateKey = key.getPrivate('hex');
 		privateKey = Buffer.from(privateKey, 'hex');
 
-		result = ECPrivateKey.encode({
-			version: ecPrivkeyVer1,
-			privateKey: privateKey,
-			parameters: parameters,
-			publicKey: publicKey
+		result = PrivateKeyInfo.encode({
+			version: 0,
+			privateKeyAlgorithm: algorithms[crv],
+			privateKey: ECPrivateKey.encode({
+				version: ecPrivkeyVer1,
+				privateKey: privateKey,
+				parameters: parameters[crv],
+				publicKey: publicKey
+			}, 'der')
 		}, 'pem', {
-			label: 'EC PRIVATE KEY'
+			label: 'PRIVATE KEY'
 		});
 
 		privateKey.fill(0);
 	} else {
 		result = PublicKeyInfo.encode({
-			algorithm: {
-				algorithm: [1, 2, 840, 10045, 2, 1],
-				parameters: parameters
-			},
+			algorithm: algorithms[crv],
 			PublicKey: publicKey
 		}, 'pem', {
 			label: 'PUBLIC KEY'
@@ -123,22 +152,5 @@ function keyToPem(crv, key, opts) {
 
 	return result;
 }
-
-var ECParameters = asn1.define('ECParameters', /* @this */ function() {
-	this.choice({
-		namedCurve: this.objid()
-	});
-});
-
-var ecPrivkeyVer1 = 1;
-
-var ECPrivateKey = asn1.define('ECPrivateKey', /* @this */ function() {
-	this.seq().obj(
-		this.key('version').int(),
-		this.key('privateKey').octstr(),
-		this.key('parameters').explicit(0).optional().any(),
-		this.key('publicKey').explicit(1).optional().bitstr()
-	);
-});
 
 module.exports = ecJwkToBuffer;
