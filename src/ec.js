@@ -6,7 +6,7 @@ var asn1 = require('asn1.js'),
 
 var b64ToBn = require('./b64-to-bn');
 
-var AlgorithmIdentifier = require('./asn1/algorithm-identifier');
+var PublicKeyInfo = require('./asn1/public-key-info');
 
 var curves = {
 		'P-256': 'p256',
@@ -76,11 +76,11 @@ function ecJwkToBuffer(jwk, opts) {
 
 function keyToPem(crv, key, opts) {
 	var compact = false;
-	var subjectPublicKey = key.getPublic(compact, 'hex');
-	subjectPublicKey = Buffer.from(subjectPublicKey, 'hex');
-	subjectPublicKey = {
+	var publicKey = key.getPublic(compact, 'hex');
+	publicKey = Buffer.from(publicKey, 'hex');
+	publicKey = {
 		unused: 0,
-		data: subjectPublicKey
+		data: publicKey
 	};
 
 	var parameters = ECParameters.encode({
@@ -97,19 +97,19 @@ function keyToPem(crv, key, opts) {
 			version: ecPrivkeyVer1,
 			privateKey: privateKey,
 			parameters: parameters,
-			publicKey: subjectPublicKey
+			publicKey: publicKey
 		}, 'pem', {
 			label: 'EC PRIVATE KEY'
 		});
 
 		privateKey.fill(0);
 	} else {
-		result = SubjectPublicKeyInfo.encode({
+		result = PublicKeyInfo.encode({
 			algorithm: {
 				algorithm: [1, 2, 840, 10045, 2, 1],
 				parameters: parameters
 			},
-			subjectPublicKey: subjectPublicKey
+			PublicKey: publicKey
 		}, 'pem', {
 			label: 'PUBLIC KEY'
 		});
@@ -138,13 +138,6 @@ var ECPrivateKey = asn1.define('ECPrivateKey', /* @this */ function() {
 		this.key('privateKey').octstr(),
 		this.key('parameters').explicit(0).optional().any(),
 		this.key('publicKey').explicit(1).optional().bitstr()
-	);
-});
-
-var SubjectPublicKeyInfo = asn1.define('SubjectPublicKeyInfo', /* @this */ function() {
-	this.seq().obj(
-		this.key('algorithm').use(AlgorithmIdentifier),
-		this.key('subjectPublicKey').bitstr()
 	);
 });
 
