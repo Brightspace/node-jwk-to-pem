@@ -19,14 +19,15 @@ describe('rsa', function() {
 		};
 
 		var expected =
-			'-----BEGIN RSA PUBLIC KEY-----\n'
-			+ 'MIIBCgKCAQEA7vjaE/vNFz+FbQ4GNNh+OeY6K4qWyDIvLUfz0YlhjPKfpGSv3mrc\n'
-			+ 'atEbAL/vny/FdCgbg1Co/bb6t/p2B2iFdVjY5hr1bXkViPVA+77+F1Cx57ZozEBi\n'
-			+ 'xNv1+6NbfEiA/OsaPR0kMdkI9iWhF7TokMleHF1RJ/2WR1vcRb+Z99x5LitYTZTm\n'
-			+ 'YkcjsZiQBs/YQOZ220WOYNywgg6Xd03ErqAkltucegb4XUkmVl9JxiHoDrXVAmRU\n'
-			+ 'j2stDSvE4b2XftNU86v1p8FMykaeQUUXz/8EcTPdt5SydUPtCcdspSFKbKJh4aP/\n'
-			+ 'Zp3Fv1iOyQOsF5WB8CO7FssKLBGElHEriQIDAQAB\n'
-			+ '-----END RSA PUBLIC KEY-----\n'
+			'-----BEGIN PUBLIC KEY-----\n'
+			+ 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7vjaE/vNFz+FbQ4GNNh+\n'
+			+ 'OeY6K4qWyDIvLUfz0YlhjPKfpGSv3mrcatEbAL/vny/FdCgbg1Co/bb6t/p2B2iF\n'
+			+ 'dVjY5hr1bXkViPVA+77+F1Cx57ZozEBixNv1+6NbfEiA/OsaPR0kMdkI9iWhF7To\n'
+			+ 'kMleHF1RJ/2WR1vcRb+Z99x5LitYTZTmYkcjsZiQBs/YQOZ220WOYNywgg6Xd03E\n'
+			+ 'rqAkltucegb4XUkmVl9JxiHoDrXVAmRUj2stDSvE4b2XftNU86v1p8FMykaeQUUX\n'
+			+ 'z/8EcTPdt5SydUPtCcdspSFKbKJh4aP/Zp3Fv1iOyQOsF5WB8CO7FssKLBGElHEr\n'
+			+ 'iQIDAQAB\n'
+			+ '-----END PUBLIC KEY-----\n'
 		;
 
 		expect(jwkToPem(jwk)).to.equal(expected);
@@ -46,14 +47,15 @@ describe('rsa', function() {
 		};
 
 		var expected =
-			'-----BEGIN RSA PUBLIC KEY-----\n'
-			+ 'MIIBCgKCAQEA0vx7agoebGcQSuuPiLJXZptN9nndrQmbXEps2aiAFbWhM78LhWx4\n'
-			+ 'cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tSoc/BJECPebWKRXjBZCiFV4n3oknjhMst\n'
-			+ 'n64tZ/2W+5JsGY4Hc5n9yBXArwl93lqt7/RN5w6Cf0h4QyQ5v+65YGjQR0/FDW2Q\n'
-			+ 'vzqY368QQMicAtaSqzs8KJZgnYb9c7d0zgdAZHzu6qMQvRL5hajrn1n91CbOpbIS\n'
-			+ 'D08qNLyrdkt+bFTWhAI4vMQFh6WeZu0fM4lFd2NcRwr3XPksINHaQ+G/xBniIqbw\n'
-			+ '0Ls1jF44+csFCur+kEgU8awapJzKnqDKgwIDAQAB\n'
-			+ '-----END RSA PUBLIC KEY-----\n';
+			'-----BEGIN PUBLIC KEY-----\n'
+			+ 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0vx7agoebGcQSuuPiLJX\n'
+			+ 'ZptN9nndrQmbXEps2aiAFbWhM78LhWx4cbbfAAtVT86zwu1RK7aPFFxuhDR1L6tS\n'
+			+ 'oc/BJECPebWKRXjBZCiFV4n3oknjhMstn64tZ/2W+5JsGY4Hc5n9yBXArwl93lqt\n'
+			+ '7/RN5w6Cf0h4QyQ5v+65YGjQR0/FDW2QvzqY368QQMicAtaSqzs8KJZgnYb9c7d0\n'
+			+ 'zgdAZHzu6qMQvRL5hajrn1n91CbOpbISD08qNLyrdkt+bFTWhAI4vMQFh6WeZu0f\n'
+			+ 'M4lFd2NcRwr3XPksINHaQ+G/xBniIqbw0Ls1jF44+csFCur+kEgU8awapJzKnqDK\n'
+			+ 'gwIDAQAB\n'
+			+ '-----END PUBLIC KEY-----\n';
 
 		expect(jwkToPem(jwk)).to.equal(expected);
 	});

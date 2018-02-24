@@ -4,6 +4,8 @@ var asn1 = require('asn1.js');
 
 var b64ToBn = require('./b64-to-bn');
 
+var PublicKeyInfo = require('./asn1/public-key-info');
+
 var Version = asn1.define('Version', /* @this */ function() {
 	this.int();
 });
@@ -80,11 +82,20 @@ function rsaJwkToBuffer(jwk, opts) {
 			label: 'RSA PRIVATE KEY'
 		});
 	} else {
-		pem = RSAPublicKey.encode({
-			modulus: b64ToBn(jwk.n, false),
-			publicExponent: b64ToBn(jwk.e, false)
+		pem = PublicKeyInfo.encode({
+			algorithm: {
+				algorithm: [1, 2, 840, 113549, 1, 1, 1],
+				parameters: [5, 0]
+			},
+			PublicKey: {
+				unused: 0,
+				data: RSAPublicKey.encode({
+					modulus: b64ToBn(jwk.n, false),
+					publicExponent: b64ToBn(jwk.e, false)
+				}, 'der')
+			}
 		}, 'pem', {
-			label: 'RSA PUBLIC KEY'
+			label: 'PUBLIC KEY'
 		});
 	}
 

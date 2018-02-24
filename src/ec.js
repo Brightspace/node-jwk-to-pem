@@ -6,6 +6,8 @@ var asn1 = require('asn1.js'),
 
 var b64ToBn = require('./b64-to-bn');
 
+var AlgorithmIdentifier = require('./asn1/algorithm-identifier');
+
 var curves = {
 		'P-256': 'p256',
 		'P-384': 'p384',
@@ -136,13 +138,6 @@ var ECPrivateKey = asn1.define('ECPrivateKey', /* @this */ function() {
 		this.key('privateKey').octstr(),
 		this.key('parameters').explicit(0).optional().any(),
 		this.key('publicKey').explicit(1).optional().bitstr()
-	);
-});
-
-var AlgorithmIdentifier = asn1.define('AlgorithmIdentifier', /* @this */ function() {
-	this.seq().obj(
-		this.key('algorithm').objid(),
-		this.key('parameters').optional().any()
 	);
 });
 
