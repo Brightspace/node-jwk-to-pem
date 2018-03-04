@@ -4,9 +4,9 @@ var asn1 = require('asn1.js');
 
 var b64ToBn = require('./b64-to-bn');
 
-var Version = asn1.define('Version', /* @this */ function() {
-	this.int();
-});
+var PublicKeyInfo = require('./asn1/public-key-info'),
+	PrivateKeyInfo = require('./asn1/private-key-info'),
+	Version = require('./asn1/version');
 
 var RSAPrivateKey = asn1.define('RSAPrivateKey', /* @this */ function() {
 	this.seq().obj(
@@ -28,6 +28,11 @@ var RSAPublicKey = asn1.define('RSAPublicKey', /* @this */ function() {
 		this.key('publicExponent').int()
 	);
 });
+
+var algorithm = {
+	algorithm: [1, 2, 840, 113549, 1, 1, 1],
+	parameters: [5, 0]
+};
 
 function rsaJwkToBuffer(jwk, opts) {
 	if ('string' !== typeof jwk.e) {
@@ -66,25 +71,35 @@ function rsaJwkToBuffer(jwk, opts) {
 
 	var pem;
 	if (opts.private) {
-		pem = RSAPrivateKey.encode({
+		pem = PrivateKeyInfo.encode({
 			version: 0,
-			modulus: b64ToBn(jwk.n, false),
-			publicExponent: b64ToBn(jwk.e, false),
-			privateExponent: b64ToBn(jwk.d, true),
-			prime1: b64ToBn(jwk.p, true),
-			prime2: b64ToBn(jwk.q, true),
-			exponent1: b64ToBn(jwk.dp, true),
-			exponent2: b64ToBn(jwk.dq, true),
-			coefficient: b64ToBn(jwk.qi, true)
+			privateKeyAlgorithm: algorithm,
+			privateKey: RSAPrivateKey.encode({
+				version: 0,
+				modulus: b64ToBn(jwk.n, false),
+				publicExponent: b64ToBn(jwk.e, false),
+				privateExponent: b64ToBn(jwk.d, true),
+				prime1: b64ToBn(jwk.p, true),
+				prime2: b64ToBn(jwk.q, true),
+				exponent1: b64ToBn(jwk.dp, true),
+				exponent2: b64ToBn(jwk.dq, true),
+				coefficient: b64ToBn(jwk.qi, true)
+			}, 'der')
 		}, 'pem', {
-			label: 'RSA PRIVATE KEY'
+			label: 'PRIVATE KEY'
 		});
 	} else {
-		pem = RSAPublicKey.encode({
-			modulus: b64ToBn(jwk.n, false),
-			publicExponent: b64ToBn(jwk.e, false)
+		pem = PublicKeyInfo.encode({
+			algorithm: algorithm,
+			PublicKey: {
+				unused: 0,
+				data: RSAPublicKey.encode({
+					modulus: b64ToBn(jwk.n, false),
+					publicExponent: b64ToBn(jwk.e, false)
+				}, 'der')
+			}
 		}, 'pem', {
-			label: 'RSA PUBLIC KEY'
+			label: 'PUBLIC KEY'
 		});
 	}
 

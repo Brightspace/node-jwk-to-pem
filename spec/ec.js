@@ -55,11 +55,12 @@ describe('ecdsa', function() {
 			};
 
 			var expected =
-				'-----BEGIN EC PRIVATE KEY-----\n'
-				+ 'MHcCAQEEIPO9DAeoH7kyeB7VJ1L2DMiaa+XlGTT+AZON21XY93gBoAoGCCqGSM49\n'
-				+ 'AwEHoUQDQgAEMKBCTNIcKUSDii11ySs3526iDZ8AiTo7Tu6KPAqv7D7gS2XpJFbZ\n'
-				+ 'iItSs3m9+9Ue6GnvHw/GW2ZZaVtszggXIw==\n'
-				+ '-----END EC PRIVATE KEY-----\n'
+				'-----BEGIN PRIVATE KEY-----\n'
+				+ 'MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQg870MB6gfuTJ4HtUn\n'
+				+ 'UvYMyJpr5eUZNP4Bk43bVdj3eAGgCgYIKoZIzj0DAQehRANCAAQwoEJM0hwpRIOK\n'
+				+ 'LXXJKzfnbqINnwCJOjtO7oo8Cq/sPuBLZekkVtmIi1Kzeb371R7oae8fD8ZbZllp\n'
+				+ 'W2zOCBcj\n'
+				+ '-----END PRIVATE KEY-----\n'
 			;
 
 			expect(jwkToPem(jwk, { private: true })).to.equal(expected);
@@ -128,12 +129,13 @@ describe('ecdsa', function() {
 			};
 
 			var expected =
-				'-----BEGIN EC PRIVATE KEY-----\n'
-				+ 'MIGkAgEBBDCmbdJH1cvt/agcjJmioRwLyXE1oITNMo0dcuY/l40FydmBsvDrzQf9\n'
-				+ 'IDL/8y1VLDegBwYFK4EEACKhZANiAARjKkiWMuxIOgbqt9lTV6CFQTFai5/tTQQY\n'
-				+ 'kWCVrtQpGff5TO8VcFy1beIMqpwGpxpBkoSrYQ8gMTGWJyElsO4xXAO6kSGX6FJK\n'
-				+ 't+PyZwqHL9PfzZdjJRORSsiOVJ/ewd8=\n'
-				+ '-----END EC PRIVATE KEY-----\n'
+				'-----BEGIN PRIVATE KEY-----\n'
+				+ 'MIG/AgEAMBAGByqGSM49AgEGBSuBBAAiBIGnMIGkAgEBBDCmbdJH1cvt/agcjJmi\n'
+				+ 'oRwLyXE1oITNMo0dcuY/l40FydmBsvDrzQf9IDL/8y1VLDegBwYFK4EEACKhZANi\n'
+				+ 'AARjKkiWMuxIOgbqt9lTV6CFQTFai5/tTQQYkWCVrtQpGff5TO8VcFy1beIMqpwG\n'
+				+ 'pxpBkoSrYQ8gMTGWJyElsO4xXAO6kSGX6FJKt+PyZwqHL9PfzZdjJRORSsiOVJ/e\n'
+				+ 'wd8=\n'
+				+ '-----END PRIVATE KEY-----\n'
 			;
 
 			expect(jwkToPem(jwk, { private: true })).to.equal(expected);
@@ -204,13 +206,14 @@ describe('ecdsa', function() {
 			};
 
 			var expected =
-				'-----BEGIN EC PRIVATE KEY-----\n'
-				+ 'MIHcAgEBBEIBBlWWywpAXm2RxBaZD1I/qRXAYFfNyrdOLh8omoN+CFFYsg0U7+wS\n'
-				+ 'ibIpLObJlQz4ZS2taZul+damMCRUJCZYiD+gBwYFK4EEACOhgYkDgYYABAANIYnT\n'
-				+ 'NHiiGAMN1vzXM5Xh/LOzVH0y6xzIoBIO2W2p9JzDz3RigWwZFIvO0K2fsis4Qx6/\n'
-				+ 'FTeUx2ISOKHOP2y4DAA4U3+pYCRk/cV9z1nlvLHnTlKWI+deNq+RIeQGNQzoWu3X\n'
-				+ 'vStiwjKJC78y4clEseNEPAHqyoTjEVyqIDAspbki3w==\n'
-				+ '-----END EC PRIVATE KEY-----\n'
+				'-----BEGIN PRIVATE KEY-----\n'
+				+ 'MIH3AgEAMBAGByqGSM49AgEGBSuBBAAjBIHfMIHcAgEBBEIBBlWWywpAXm2RxBaZ\n'
+				+ 'D1I/qRXAYFfNyrdOLh8omoN+CFFYsg0U7+wSibIpLObJlQz4ZS2taZul+damMCRU\n'
+				+ 'JCZYiD+gBwYFK4EEACOhgYkDgYYABAANIYnTNHiiGAMN1vzXM5Xh/LOzVH0y6xzI\n'
+				+ 'oBIO2W2p9JzDz3RigWwZFIvO0K2fsis4Qx6/FTeUx2ISOKHOP2y4DAA4U3+pYCRk\n'
+				+ '/cV9z1nlvLHnTlKWI+deNq+RIeQGNQzoWu3XvStiwjKJC78y4clEseNEPAHqyoTj\n'
+				+ 'EVyqIDAspbki3w==\n'
+				+ '-----END PRIVATE KEY-----\n'
 			;
 
 			expect(jwkToPem(jwk, { private: true })).to.equal(expected);
