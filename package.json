@@ -3,6 +3,11 @@
   "version": "1.2.6",
   "description": "Convert a JSON Web Key to a PEM",
   "main": "src/jwk-to-pem.js",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "src"
+  ],
   "scripts": {
     "check-style": "eslint .",
     "pretest": "npm run check-style",
