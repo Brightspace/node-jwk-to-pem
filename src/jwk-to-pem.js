@@ -5,7 +5,7 @@ var ec = require('./ec'),
 
 /**
  *
- * @param {{kty:'EC', crv:string, d:string, x?:string, y?:string} | {kty:'RSA', e:string, n:string, d?:string, p?:string, q?:string, dp?:string, dq?:string, qi?:string}} jwk
+ * @param {{kty:'EC', crv:string, d:string, x?:string, y?:string} | {kty:'EC', crv:string, x:string, y:string} | {kty:'RSA', e:string, n:string, d?:string, p?:string, q?:string, dp?:string, dq?:string, qi?:string}} jwk
  * @param {{private:boolean}=} opts
  * @returns {string}
  */
