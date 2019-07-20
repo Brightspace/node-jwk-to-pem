@@ -36,12 +36,12 @@
     "safe-buffer": "^5.0.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "coveralls": "^2.11.15",
-    "eslint": "^2.13.1",
-    "eslint-config-brightspace": "^0.2.4",
+    "chai": "^4.2.0",
+    "coveralls": "^3.0.5",
+    "eslint": "^6.0.1",
+    "eslint-config-brightspace": "^0.6.4",
     "istanbul": "^0.4.5",
     "jwa": "^1.1.4",
-    "mocha": "^3.1.2"
+    "mocha": "^6.2.0"
   }
 }
