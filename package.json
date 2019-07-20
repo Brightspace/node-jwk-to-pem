@@ -11,8 +11,8 @@
   "scripts": {
     "check-style": "eslint .",
     "pretest": "npm run check-style",
-    "test": "istanbul cover --root src _mocha -- spec",
-    "report-cov": "cat ./coverage/lcov.info | coveralls"
+    "test": "nyc --all --include src -- mocha spec",
+    "report-cov": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -40,8 +40,8 @@
     "coveralls": "^3.0.5",
     "eslint": "^6.0.1",
     "eslint-config-brightspace": "^0.6.4",
-    "istanbul": "^0.4.5",
     "jwa": "^1.1.4",
-    "mocha": "^6.2.0"
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1"
   }
 }

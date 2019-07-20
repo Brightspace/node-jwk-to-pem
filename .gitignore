@@ -5,4 +5,4 @@ package-lock.json
 *.swo
 *.swp
 
-coverage
+.nyc_output
