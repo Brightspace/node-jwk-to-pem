@@ -1,12 +1,10 @@
 sudo: false
 language: node_js
 node_js:
-  - '0.12'
-  - 4
-  - 6
   - 8
   - 10
   - 11
+  - 12
 after_success: npm run report-cov
 deploy:
   provider: npm
@@ -18,4 +16,4 @@ deploy:
     all_branches: true
     tags: true
     repo: Brightspace/node-jwk-to-pem
-    node: 10
+    node: 12
