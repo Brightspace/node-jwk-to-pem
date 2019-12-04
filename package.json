@@ -1,6 +1,6 @@
 {
   "name": "jwk-to-pem",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Convert a JSON Web Key to a PEM",
   "main": "src/jwk-to-pem.js",
   "files": [
@@ -32,7 +32,7 @@
   "homepage": "https://github.com/Brightspace/node-jwk-to-pem#readme",
   "dependencies": {
     "asn1.js": "^4.5.2",
-    "elliptic": "^6.2.3",
+    "elliptic": "^6.5.2",
     "safe-buffer": "^5.0.1"
   },
   "devDependencies": {
