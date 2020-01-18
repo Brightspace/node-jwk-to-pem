@@ -1,6 +1,6 @@
 {
   "name": "jwk-to-pem",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Convert a JSON Web Key to a PEM",
   "main": "src/jwk-to-pem.js",
   "files": [
