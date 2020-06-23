@@ -32,7 +32,7 @@
   "homepage": "https://github.com/Brightspace/node-jwk-to-pem#readme",
   "dependencies": {
     "asn1.js": "^5.3.0",
-    "elliptic": "^6.5.2",
+    "elliptic": "^6.5.3",
     "safe-buffer": "^5.0.1"
   },
   "devDependencies": {
