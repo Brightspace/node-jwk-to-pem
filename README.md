@@ -20,6 +20,13 @@ var jwk = { kty: 'EC', crv: 'P-256', x: '...', y: '...' },
 jwt.verify(token, pem);
 ```
 
+## Build bundle for browser (or Postman)
+If you find yourself in the need to have this amazing function in your brower-side code or, why not, in Postman, you can build a bundle by means of:
+```sh
+npm run build
+```
+which will produce a nice `build/bundle.js` ready to use.
+
 ### Support
 
 key type | support level

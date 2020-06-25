@@ -12,7 +12,8 @@
     "check-style": "eslint .",
     "pretest": "npm run check-style",
     "test": "nyc --all --include src -- mocha spec",
-    "report-cov": "nyc report --reporter=text-lcov | coveralls"
+    "report-cov": "nyc report --reporter=text-lcov | coveralls",
+    "build": "browserify -p tinyify src/jwk-to-pem.js > ./build/bundle.js -s jwk2pem"
   },
   "repository": {
     "type": "git",
@@ -36,12 +37,14 @@
     "safe-buffer": "^5.0.1"
   },
   "devDependencies": {
+    "browserify": "^16.5.1",
     "chai": "^4.2.0",
     "coveralls": "^3.0.5",
     "eslint": "^6.0.1",
     "eslint-config-brightspace": "^0.6.4",
     "jwa": "^1.1.4",
     "mocha": "^6.2.0",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "tinyify": "^2.5.2"
   }
 }
