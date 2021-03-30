@@ -40,7 +40,7 @@
     "coveralls": "^3.0.5",
     "eslint": "^6.0.1",
     "eslint-config-brightspace": "^0.6.4",
-    "jwa": "^1.1.4",
+    "jwa": "^2.0.0",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1"
   }
