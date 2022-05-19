@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Brightspace/node-jwk-to-pem.svg?branch=master)](https://travis-ci.org/Brightspace/node-jwk-to-pem) [![Coverage Status](https://coveralls.io/repos/Brightspace/node-jwk-to-pem/badge.svg)](https://coveralls.io/r/Brightspace/node-jwk-to-pem)
 
-Convert a [json web key][jwk] to a PEM for use by OpenSSL or `crytpo`.
+Convert a [json web key][jwk] to a PEM for use by OpenSSL or `crypto`.
 
 ## Install
 ```sh
