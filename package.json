@@ -11,12 +11,11 @@
   "scripts": {
     "check-style": "eslint .",
     "pretest": "npm run check-style",
-    "test": "nyc --all --include src -- mocha spec",
-    "report-cov": "nyc report --reporter=text-lcov | coveralls"
+    "test": "nyc --all --include src --reporter=text-summary -- mocha spec"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/Brightspace/node-jwk-to-pem.git"
+    "url": "git+https://github.com/Brightspace/node-jwk-to-pem"
   },
   "keywords": [
     "jwt",
@@ -37,7 +36,6 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "coveralls": "^3.0.5",
     "eslint": "^6.0.1",
     "eslint-config-brightspace": "^0.6.4",
     "jwa": "^1.1.4",
