@@ -1,0 +1,50 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - v*
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [8, 10, 12, 14, 16, 18, 20, 22]
+    steps:
+      - uses: Brightspace/third-party-actions@actions/checkout
+
+      - uses: Brightspace/third-party-actions@actions/setup-node
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: npm install
+      - run: npm test
+
+  publish:
+    if: github.ref_type == 'tag'
+    needs: test
+
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: Brightspace/third-party-actions@actions/checkout
+
+      - uses: Brightspace/third-party-actions@actions/setup-node
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm install
+      - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    
