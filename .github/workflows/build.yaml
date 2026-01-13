@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: Brightspace/third-party-actions@actions/checkout
 
-      - uses: Brightspace/third-party-actions@actions/setup-node
+      - uses: Brightspace/setup-node@main
         with:
           node-version: ${{ matrix.node }}
 
@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: Brightspace/third-party-actions@actions/checkout
 
-      - uses: Brightspace/third-party-actions@actions/setup-node
+      - uses: Brightspace/setup-node@main
         with:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
