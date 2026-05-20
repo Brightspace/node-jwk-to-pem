@@ -29,6 +29,9 @@
     "url": "https://github.com/Brightspace/node-jwk-to-pem/issues"
   },
   "homepage": "https://github.com/Brightspace/node-jwk-to-pem#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "asn1.js": "^5.3.0",
     "elliptic": "^6.6.1",

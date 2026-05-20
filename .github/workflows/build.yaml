@@ -41,10 +41,9 @@ jobs:
       - uses: Brightspace/setup-node@main
         with:
           node-version: 22
-          registry-url: 'https://registry.npmjs.org'
 
       - run: npm install
       - run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    
+
