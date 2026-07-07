@@ -22,6 +22,7 @@ jobs:
       - uses: Brightspace/setup-node@main
         with:
           node-version: ${{ matrix.node }}
+          d2l-registry-token: ${{ secrets.D2L_PACKAGE_REGISTRY_AUTH_TOKEN }}
 
       - run: npm install
       - run: npm test
@@ -41,6 +42,7 @@ jobs:
       - uses: Brightspace/setup-node@main
         with:
           node-version: 22
+          d2l-registry-token: ${{ secrets.D2L_PACKAGE_REGISTRY_AUTH_TOKEN }}
 
       - run: npm install
       - run: |
