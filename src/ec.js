@@ -1,8 +1,11 @@
 'use strict';
 
+/* global BigInt */
+
 var asn1 = require('asn1.js'),
 	Buffer = require('safe-buffer').Buffer,
-	EC = require('elliptic').ec;
+	{ p256, p384, p521 } = require('@noble/curves/nist.js'),
+	{ bytesToHex, hexToBytes } = require('@noble/curves/utils.js');
 
 var b64ToBn = require('./b64-to-bn');
 
@@ -28,9 +31,9 @@ var ECPrivateKey = asn1.define('ECPrivateKey', /* @this */ function() {
 });
 
 var curves = {
-	'P-256': 'p256',
-	'P-384': 'p384',
-	'P-521': 'p521'
+	'P-256': p256,
+	'P-384': p384,
+	'P-521': p521
 };
 
 var oids = {
@@ -74,43 +77,67 @@ function ecJwkToBuffer(jwk, opts) {
 		throw new TypeError('Expected "jwk.d" to be a String');
 	}
 
-	var curveName = curves[jwk.crv];
-	if (!curveName) {
+	var curve = curves[jwk.crv];
+	if (!curve) {
 		throw new Error('Unsupported curve "' + jwk.crv + '"');
 	}
 
-	var curve = new EC(curveName);
-
-	var key = {};
+	var publicKeyPoint;
+	var privateKeyBytes;
 
 	var hasPub = jwk.x && jwk.y;
 	if (hasPub) {
-		key.pub = {
-			x: b64ToBn(jwk.x, false),
-			y: b64ToBn(jwk.y, false)
-		};
+		var xBn = b64ToBn(jwk.x, false);
+		var yBn = b64ToBn(jwk.y, false);
+
+		var xBigInt = BigInt('0x' + xBn.toString(16));
+		var yBigInt = BigInt('0x' + yBn.toString(16));
+
+		try {
+			publicKeyPoint = curve.Point.fromAffine({ x: xBigInt, y: yBigInt });
+			publicKeyPoint.assertValidity();
+		} catch (err) {
+			throw new Error('Invalid key for curve: "' + err.message + '"');
+		}
 	}
 
 	if (opts.private || !hasPub) {
-		key.priv = b64ToBn(jwk.d, true);
+		var dBn = b64ToBn(jwk.d, true);
+		var dHex = dBn.toString(16);
+
+		var keyLengths = {
+			'P-256': 64,
+			'P-384': 96,
+			'P-521': 132
+		};
+		var expectedLength = keyLengths[jwk.crv];
+		while (dHex.length < expectedLength) {
+			dHex = '0' + dHex;
+		}
+		privateKeyBytes = hexToBytes(dHex);
+
+		if (!hasPub) {
+			var publicKeyBytes = curve.getPublicKey(privateKeyBytes);
+			publicKeyPoint = curve.Point.fromHex(bytesToHex(publicKeyBytes));
+		}
+
+		var derivedPubKey = curve.getPublicKey(privateKeyBytes);
+		var derivedPoint = curve.Point.fromHex(bytesToHex(derivedPubKey));
+
+		if (hasPub && !derivedPoint.equals(publicKeyPoint)) {
+			throw new Error('Invalid key for curve: "private key does not match public key"');
+		}
 	}
 
-	key = curve.keyPair(key);
-
-	var keyValidation = key.validate();
-	if (!keyValidation.result) {
-		throw new Error('Invalid key for curve: "' + keyValidation.reason + '"');
-	}
-
-	var result = keyToPem(jwk.crv, key, opts);
+	var result = keyToPem(jwk.crv, publicKeyPoint, privateKeyBytes, opts);
 
 	return result;
 }
 
-function keyToPem(crv, key, opts) {
+function keyToPem(crv, publicKeyPoint, privateKeyBytes, opts) {
 	var compact = false;
-	var publicKey = key.getPublic(compact, 'hex');
-	publicKey = Buffer.from(publicKey, 'hex');
+	var publicKeyHex = publicKeyPoint.toHex(compact);
+	var publicKey = Buffer.from(publicKeyHex, 'hex');
 	publicKey = {
 		unused: 0,
 		data: publicKey
@@ -118,8 +145,7 @@ function keyToPem(crv, key, opts) {
 
 	var result;
 	if (opts.private) {
-		var privateKey = key.getPrivate('hex');
-		privateKey = Buffer.from(privateKey, 'hex');
+		var privateKey = Buffer.from(privateKeyBytes);
 
 		result = PrivateKeyInfo.encode({
 			version: 0,
