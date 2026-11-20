@@ -34,7 +34,6 @@
   },
   "dependencies": {
     "asn1.js": "^5.3.0",
-    "elliptic": "^6.6.1",
     "safe-buffer": "^5.0.1"
   },
   "devDependencies": {
