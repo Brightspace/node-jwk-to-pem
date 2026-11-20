@@ -1,8 +1,8 @@
 'use strict';
 
 var asn1 = require('asn1.js'),
-	Buffer = require('safe-buffer').Buffer,
-	EC = require('elliptic').ec;
+	crypto = require('crypto'),
+	Buffer = require('safe-buffer').Buffer;
 
 var b64ToBn = require('./b64-to-bn');
 
@@ -28,9 +28,9 @@ var ECPrivateKey = asn1.define('ECPrivateKey', /* @this */ function() {
 });
 
 var curves = {
-	'P-256': 'p256',
-	'P-384': 'p384',
-	'P-521': 'p521'
+	'P-256': { name: 'prime256v1', size: 32 },
+	'P-384': { name: 'secp384r1', size: 48 },
+	'P-521': { name: 'secp521r1', size: 66 }
 };
 
 var oids = {
@@ -74,43 +74,53 @@ function ecJwkToBuffer(jwk, opts) {
 		throw new TypeError('Expected "jwk.d" to be a String');
 	}
 
-	var curveName = curves[jwk.crv];
-	if (!curveName) {
+	var curve = curves[jwk.crv];
+	if (!curve) {
 		throw new Error('Unsupported curve "' + jwk.crv + '"');
 	}
 
-	var curve = new EC(curveName);
+	var publicKey, privateKey;
 
-	var key = {};
+	try {
+		var hasPub = jwk.x && jwk.y;
+		if (hasPub) {
+			publicKey = Buffer.concat([
+				Buffer.from([4]),
+				b64ToFixedBuffer(jwk.x, curve.size, false),
+				b64ToFixedBuffer(jwk.y, curve.size, false)
+			]);
 
-	var hasPub = jwk.x && jwk.y;
-	if (hasPub) {
-		key.pub = {
-			x: b64ToBn(jwk.x, false),
-			y: b64ToBn(jwk.y, false)
-		};
+			// computeSecret rejects points that are not on the curve
+			var verifier = crypto.createECDH(curve.name);
+			verifier.generateKeys();
+			verifier.computeSecret(publicKey);
+		}
+
+		if (opts.private || !hasPub) {
+			privateKey = b64ToFixedBuffer(jwk.d, curve.size, true);
+
+			var ecdh = crypto.createECDH(curve.name);
+			ecdh.setPrivateKey(privateKey);
+
+			if (!hasPub) {
+				publicKey = ecdh.getPublicKey();
+			}
+		}
+	} catch (e) {
+		if (privateKey) {
+			privateKey.fill(0);
+		}
+		throw new Error('Invalid key for curve: "' + e.message + '"');
 	}
 
-	if (opts.private || !hasPub) {
-		key.priv = b64ToBn(jwk.d, true);
-	}
-
-	key = curve.keyPair(key);
-
-	var keyValidation = key.validate();
-	if (!keyValidation.result) {
-		throw new Error('Invalid key for curve: "' + keyValidation.reason + '"');
-	}
-
-	var result = keyToPem(jwk.crv, key, opts);
-
-	return result;
+	return keyToPem(jwk.crv, publicKey, privateKey, opts);
 }
 
-function keyToPem(crv, key, opts) {
-	var compact = false;
-	var publicKey = key.getPublic(compact, 'hex');
-	publicKey = Buffer.from(publicKey, 'hex');
+function b64ToFixedBuffer(val, size, zero) {
+	return b64ToBn(val, zero).toArrayLike(Buffer, 'be', size);
+}
+
+function keyToPem(crv, publicKey, privateKey, opts) {
 	publicKey = {
 		unused: 0,
 		data: publicKey
@@ -118,9 +128,6 @@ function keyToPem(crv, key, opts) {
 
 	var result;
 	if (opts.private) {
-		var privateKey = key.getPrivate('hex');
-		privateKey = Buffer.from(privateKey, 'hex');
-
 		result = PrivateKeyInfo.encode({
 			version: 0,
 			privateKeyAlgorithm: algorithms[crv],
